@@ -1,0 +1,442 @@
+[
+    {
+        "name": "Reliance Industries",
+        "symbol": "RELIANCE",
+        "scrip": "500325"
+    },
+    {
+        "name": "TATA CONSULTANCY SERVICES LTD.",
+        "symbol": "TCS",
+        "scrip": "532540"
+    },
+    {
+        "name": "HDFC Bank",
+        "symbol": "HDFCBANK",
+        "scrip": "500180"
+    },
+    {
+        "name": "ICICI Bank",
+        "symbol": "ICICIBANK",
+        "scrip": "532174"
+    },
+    {
+        "name": "Bharti Airtel",
+        "symbol": "BHARTIARTL",
+        "scrip": "532454"
+    },
+    {
+        "name": "State Bank of India",
+        "symbol": "SBIN",
+        "scrip": "500112"
+    },
+    {
+        "name": "Infosys",
+        "symbol": "INFY",
+        "scrip": "500209"
+    },
+    {
+        "name": "Life Insurance",
+        "symbol": "LICI",
+        "scrip": "540133"
+    },
+    {
+        "name": "Hindustan Unilever",
+        "symbol": "HINDUNILVR",
+        "scrip": "500696"
+    },
+    {
+        "name": "ITC",
+        "symbol": "ITC",
+        "scrip": "500875"
+    },
+    {
+        "name": "Larsen & Toubro",
+        "symbol": "LT",
+        "scrip": "500510"
+    },
+    {
+        "name": "HCL Technologies",
+        "symbol": "HCLTECH",
+        "scrip": "532281"
+    },
+    {
+        "name": "Bajaj Finance",
+        "symbol": "BAJFINANCE",
+        "scrip": "500034"
+    },
+    {
+        "name": "Sun Pharma",
+        "symbol": "SUNPHARMA",
+        "scrip": "524552"
+    },
+    {
+        "name": "Maruti Suzuki",
+        "symbol": "MARUTI",
+        "scrip": "532500"
+    },
+    {
+        "name": "Tata Motors",
+        "symbol": "TATAMOTORS",
+        "scrip": "500570"
+    },
+    {
+        "name": "Kotak Mahindra Bank",
+        "symbol": "KOTAKBANK",
+        "scrip": "500247"
+    },
+    {
+        "name": "Adani Enter",
+        "symbol": "ADANIENT",
+        "scrip": "512599"
+    },
+    {
+        "name": "Oil and Natural Gas Corporation Ltd",
+        "symbol": "ONGC",
+        "scrip": "500312"
+    },
+    {
+        "name": "Titan Company",
+        "symbol": "TITAN",
+        "scrip": "500114"
+    },
+    {
+        "name": "Axis Bank",
+        "symbol": "AXISBANK",
+        "scrip": "532215"
+    },
+    {
+        "name": "NTPC",
+        "symbol": "NTPC",
+        "scrip": "532555"
+    },
+    {
+        "name": "Adani Green",
+        "symbol": "ADANIGREEN",
+        "scrip": "541450"
+    },
+    {
+        "name": "UltraTech",
+        "symbol": "ULTRACEMCO",
+        "scrip": "532538"
+    },
+    {
+        "name": "Adani Ports",
+        "symbol": "ADANIPORTS",
+        "scrip": "532921"
+    },
+    {
+        "name": "Avenue",
+        "symbol": "DMART",
+        "scrip": "539807"
+    },
+    {
+        "name": "Asian Paints",
+        "symbol": "ASIANPAINT",
+        "scrip": "500820"
+    },
+    {
+        "name": "Coal India",
+        "symbol": "COALINDIA",
+        "scrip": "533278"
+    },
+    {
+        "name": "Wipro",
+        "symbol": "WIPRO",
+        "scrip": "507685"
+    },
+    {
+        "name": "Bajaj Finserv",
+        "symbol": "BAJAJFINSV",
+        "scrip": "532978"
+    },
+    {
+        "name": "Bajaj Auto",
+        "symbol": "BAJAJ-AUTO",
+        "scrip": "532977"
+    },
+    {
+        "name": "Nestle India",
+        "symbol": "NESTLEIND",
+        "scrip": "500790"
+    },
+    {
+        "name": "INDIAN OIL CORPORATION LTD.",
+        "symbol": "IOC",
+        "scrip": "530965"
+    },
+    {
+        "name": "MAHINDRA & MAHINDRA FINANCIAL SERVICES LTD.",
+        "symbol": "M&M",
+        "scrip": "532720"
+    },
+    {
+        "name": "DLF",
+        "symbol": "DLF",
+        "scrip": "532868"
+    },
+    {
+        "name": "Hindustan Aeronautics",
+        "symbol": "HAL",
+        "scrip": "541154"
+    },
+    {
+        "name": "Adani Power",
+        "symbol": "ADANIPOWER",
+        "scrip": "533096"
+    },
+    {
+        "name": "JSW Steel",
+        "symbol": "JSWSTEEL",
+        "scrip": "500228"
+    },
+    {
+        "name": "Tata Steel",
+        "symbol": "TATASTEEL",
+        "scrip": "500055"
+    },
+    {
+        "name": "Varun Beverages",
+        "symbol": "VBL",
+        "scrip": "540180"
+    },
+    {
+        "name": "Siemens",
+        "symbol": "SIEMENS",
+        "scrip": "500550"
+    },
+    {
+        "name": "LTIMindtree",
+        "symbol": "LTIM",
+        "scrip": "540005"
+    },
+    {
+        "name": "SBI Life Insuran",
+        "symbol": "SBILIFE",
+        "scrip": "540719"
+    },
+    {
+        "name": "Bharat Electron",
+        "symbol": "BEL",
+        "scrip": "500049"
+    },
+    {
+        "name": "Trent",
+        "symbol": "TRENT",
+        "scrip": "500251"
+    },
+    {
+        "name": "HDFC Life Insurance",
+        "symbol": "HDFCLIFE",
+        "scrip": "540777"
+    },
+    {
+        "name": "Punjab National Bank",
+        "symbol": "PNB",
+        "scrip": "532461"
+    },
+    {
+        "name": "Bank of Baroda",
+        "symbol": "BANKBARODA",
+        "scrip": "532134"
+    },
+    {
+        "name": "POWER FINANCE CORPORATION LTD.",
+        "symbol": "PFC",
+        "scrip": "532810"
+    },
+    {
+        "name": "BHARAT PETROLEUM CORPORATION LTD.",
+        "symbol": "BPCL",
+        "scrip": "500547"
+    },
+    {
+        "name": "Godrej Consumer",
+        "symbol": "GODREJCP",
+        "scrip": "532424"
+    },
+    {
+        "name": "Tata Power Co.",
+        "symbol": "TATAPOWER",
+        "scrip": "500400"
+    },
+    {
+        "name": "Tech Mahindra",
+        "symbol": "TECHM",
+        "scrip": "532755"
+    },
+    {
+        "name": "ABB",
+        "symbol": "ABB",
+        "scrip": "500002"
+    },
+    {
+        "name": "Hindustan Zinc",
+        "symbol": "HINDZINC",
+        "scrip": "500188"
+    },
+    {
+        "name": "Hindalco Industries",
+        "symbol": "HINDALCO",
+        "scrip": "500440"
+    },
+    {
+        "name": "REC Ltd",
+        "symbol": "RECLTD",
+        "scrip": "532955"
+    },
+    {
+        "name": "Cipla",
+        "symbol": "CIPLA",
+        "scrip": "500087"
+    },
+    {
+        "name": "Ambuja Cements",
+        "symbol": "AMBUJACEM",
+        "scrip": "500425"
+    },
+    {
+        "name": "Britannia Industries",
+        "symbol": "BRITANNIA",
+        "scrip": "500825"
+    },
+    {
+        "name": "IndusInd Bank",
+        "symbol": "INDUSINDBK",
+        "scrip": "532187"
+    },
+    {
+        "name": "GAIL (India)",
+        "symbol": "GAIL",
+        "scrip": "532155"
+    },
+    {
+        "name": "Adani Energy Sol",
+        "symbol": "ADANIENSOL",
+        "scrip": "539254"
+    },
+    {
+        "name": "Union Bank",
+        "symbol": "UNIONBANK",
+        "scrip": "532210"
+    },
+    {
+        "name": "Indian Overseas Bank",
+        "symbol": "IOB",
+        "scrip": "532388"
+    },
+    {
+        "name": "Tata Consumer",
+        "symbol": "TATACONSUM",
+        "scrip": "500800"
+    },
+    {
+        "name": "Eicher Motors",
+        "symbol": "EICHERMOT",
+        "scrip": "505200"
+    },
+    {
+        "name": "Adani Total Gas",
+        "symbol": "ATGL",
+        "scrip": "542066"
+    },
+    {
+        "name": "Canara Bank",
+        "symbol": "CANBK",
+        "scrip": "532483"
+    },
+    {
+        "name": "Vedanta",
+        "symbol": "VEDL",
+        "scrip": "500295"
+    },
+    {
+        "name": "TVS Motor",
+        "symbol": "TVSMOTOR",
+        "scrip": "532343"
+    },
+    {
+        "name": "Havells India",
+        "symbol": "HAVELLS",
+        "scrip": "517354"
+    },
+    {
+        "name": "Dabur India",
+        "symbol": "DABUR",
+        "scrip": "500096"
+    },
+    {
+        "name": "Shree Cement",
+        "symbol": "SHREECEM",
+        "scrip": "500387"
+    },
+    {
+        "name": "Bajaj Holdings",
+        "symbol": "BAJAJHLDNG",
+        "scrip": "500490"
+    },
+    {
+        "name": "Hero Motocorp",
+        "symbol": "HEROMOTOCO",
+        "scrip": "500182"
+    },
+    {
+        "name": "Apollo Hospitals",
+        "symbol": "APOLLOHOSP",
+        "scrip": "508869"
+    },
+    {
+        "name": "Bosch",
+        "symbol": "BOSCHLTD",
+        "scrip": "500530"
+    },
+    {
+        "name": "Shriram Finance",
+        "symbol": "SHRIRAMFIN",
+        "scrip": "511218"
+    },
+    {
+        "name": "IDBI Bank",
+        "symbol": "IDBI",
+        "scrip": "500116"
+    },
+    {
+        "name": "TORRENT PHARMACEUTICALS LTD.",
+        "symbol": "TORNTPHARM",
+        "scrip": "500420"
+    },
+    {
+        "name": "NHPC Ltd",
+        "symbol": "NHPC",
+        "scrip": "533098"
+    },
+    {
+        "name": "Jindal Steel",
+        "symbol": "JINDALSTEL",
+        "scrip": "532286"
+    },
+    {
+        "name": "JSW Energy",
+        "symbol": "JSWENERGY",
+        "scrip": "533148"
+    },
+    {
+        "name": "CG Power and Industrial Solutions Ltd",
+        "symbol": "CGPOWER",
+        "scrip": "500093"
+    },
+    {
+        "name": "BHARAT HEAVY ELECTRICALS LTD.",
+        "symbol": "BHEL",
+        "scrip": "500103"
+    },
+    {
+        "name": "ICICI Lombard",
+        "symbol": "ICICIGI",
+        "scrip": "540716"
+    },
+    {
+        "name": "United Spirits",
+        "symbol": "MCDOWELL-N",
+        "scrip": "532432"
+    }
+]

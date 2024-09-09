@@ -15,6 +15,7 @@ import json
 
 import google.generativeai as genai
 from google.api_core.exceptions import ResourceExhausted
+import csv
 
 news_url = "https://saurav.tech/NewsAPI/top-headlines/category/business/in.json"
 b = BSE()
@@ -75,7 +76,7 @@ def get_india_news(flattened_stocks):
     resp = req.json()
     print(f"Total news articles: {resp['totalResults']}")
     analyse_collection = []
-    for article in resp["articles"][:1]:
+    for article in resp["articles"][:10]:
         print(article)
         if article["description"] is None:
             continue
@@ -248,26 +249,18 @@ def handle_orders(final_sentiments: dict, incoming_stocks):
         latest_stock_info = b.getQuote(scrip)
         current_price = float(latest_stock_info['currentValue'])
         qty = buy_ratio // current_price
+        if qty == 0:
+            continue
         balance -= current_price * qty
-        print({
-            "buy_ratio": buy_ratio,
-            "qty": qty,
-            "current_price": current_price,
-            "balance": balance,
-            "stock": buy_stock["stock"]
-        })
-        transactions.append({'action': 'buy', 'stock': portfolio_info, 'current_price': current_price})
+        transactions.append({'action': 'buy', 'current_price': current_price, **portfolio_info})
         portfolio_stocks.append({**portfolio_info, 'price': current_price, 'qty': qty})
     portfolio["balance"] = balance
     with open("final_stocks.json", "w") as final_stocks_file:
         final_stocks_file.write(json.dumps(portfolio, indent=4))
-    with open("transactions.json", "r+") as transactions_log:
-        logs = loads(transactions_log.read())
-        transactions = transactions.extend(logs["transactions"])
-        temp_log_file = {
-            "transactions": transactions
-        }
-        transactions_log.write(json.dumps(temp_log_file))
+    with open("transactions.csv", "r+") as transactions_log:
+        keys = transactions[0].keys()
+        writer = csv.DictWriter(transactions_log, fieldnames=keys)
+        writer.writerows(transactions)
 
 
 def get_news_for_all(incoming_stocks):
@@ -314,5 +307,3 @@ if __name__ == '__main__':
     #     # Not strictly necessary if daemonic mode is enabled but should be done if possible
     #     scrips_update_scheduler.shutdown()
     #     news_scheduler.shutdown()
-
-

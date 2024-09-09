@@ -1,13 +1,11 @@
 import os
 from datetime import datetime
 from json import loads, dumps
-from typing import List
+from typing import List, Dict
 
 import bsedata.exceptions
 import requests
 from apscheduler.triggers.cron import CronTrigger
-
-from random import randrange
 
 from bsedata.bse import BSE
 import time
@@ -19,8 +17,6 @@ import google.generativeai as genai
 from google.api_core.exceptions import ResourceExhausted
 
 news_url = "https://saurav.tech/NewsAPI/top-headlines/category/business/in.json"
-marketaux_news_url = (f"https://api.marketaux.com/v1/news/all?symbols=SYMBOL.BO&filter_entities=true&min_match_score"
-                      f"=100&api_token={os.environ.get('MARKET_AUX')}&countries=in")
 b = BSE()
 
 
@@ -36,7 +32,6 @@ def flatten_and_lowercase(data):
 
 
 def custom_gemini_sentiment(news):
-    print("here")
     genai.configure(api_key=os.environ.get("GOOGLE"))
     generation_config = {
         "temperature": 1,
@@ -80,7 +75,7 @@ def get_india_news(flattened_stocks):
     resp = req.json()
     print(f"Total news articles: {resp['totalResults']}")
     analyse_collection = []
-    for article in resp["articles"][:5]:
+    for article in resp["articles"][:1]:
         print(article)
         if article["description"] is None:
             continue
@@ -138,16 +133,23 @@ def update_stock_scrip_codes():
             stocks[index] = stock_data
 
 
-def sentiment_analysis(highlights: List[str]):
-    pass
+def create_market_aux_url(stock: str, secondary=False) -> str:
+    marketaux_news_url = (f"https://api.marketaux.com/v1/news/all?symbols=SYMBOL.BO&filter_entities=true"
+                          f"&min_match_score=100&countries=in&api_token=")
+    marketaux_news_url = marketaux_news_url.replace("SYMBOL", stock)
+    if secondary:
+        marketaux_news_url += os.environ.get('MARKET_AUX2')
+    else:
+        marketaux_news_url += os.environ.get('MARKET_AUX')
+    return marketaux_news_url
 
 
-def get_analysed_news(symbol: str, curr_sentiment: float):
-    url = marketaux_news_url.replace("SYMBOL", symbol)
+def get_analysed_news(symbol: str, curr_sentiment: float, secondary: bool = False):
+    url = create_market_aux_url(symbol, secondary)
     req = requests.get(url)
     resp = req.json()
     if 'error' in resp:
-        print(resp)
+        print("API limit reached switching to secondary API_KEY")
         return None
     data = resp["data"]
     highlights = []
@@ -168,7 +170,7 @@ def get_analysed_news(symbol: str, curr_sentiment: float):
     return weighted_sentiment_avg
 
 
-def in_portfolio(stock, portfolio):
+def in_portfolio(stock: str, portfolio: List[Dict[str, any]]) -> List[List[any]]:
     mentions = []
     for index, value in enumerate(portfolio):
         if value["symbol"] == stock:
@@ -180,6 +182,7 @@ def calculate_buy_ratio(buy_stocks, balance):
     sentiment = 0
     for ele in buy_stocks:
         sentiment += ele['sentiment']
+    print("unitary", 1 / sentiment)
     return balance / sentiment if sentiment > 0 else 0
 
 
@@ -189,17 +192,30 @@ def handle_orders(final_sentiments: dict, incoming_stocks):
     transactions = []
     for stock, sentiment in final_sentiments.items():
         if sentiment < 0:
-            sell_stocks.append({'stock': stock, 'sentiment': sentiment})
+            sell_stocks.append({'stock': stock.split(".")[0], 'sentiment': sentiment})
         else:
-            buy_stocks.append({'stock': stock, 'sentiment': sentiment})
+            buy_stocks.append({'stock': stock.split(".")[0], 'sentiment': sentiment})
     with open("final_stocks.json", "r") as final_stocks_file:
         portfolio = json.loads(final_stocks_file.read())
+
+    print("===================Sell Sentiments===================")
+    for log in sell_stocks:
+        print(log["stock"], log["sentiment"])
+    print("=====================================================")
+
+    print("===================Buy Sentiments===================")
+    for log in buy_stocks:
+        print(log["stock"], log["sentiment"])
+    print("====================================================")
+
     balance = portfolio['balance']
     portfolio_stocks = portfolio["stocks"]
     pl = portfolio['p/l']
     for sell_stock in sell_stocks:
-        in_portfolio_responses = in_portfolio(sell_stock, portfolio_stocks)
-        if in_portfolio_responses is None:
+        print(f"Selling {sell_stock}")
+        in_portfolio_responses = in_portfolio(sell_stock['stock'], portfolio_stocks)
+        if len(in_portfolio_responses) == 0:
+            print(f"Not in portfolio, not selling")
             continue
         for in_portfolio_response in in_portfolio_responses:
             index, portfolio_info = in_portfolio_response
@@ -212,26 +228,49 @@ def handle_orders(final_sentiments: dict, incoming_stocks):
             pl += (buy_price - current_price) * qty
             transactions.append({'action': 'sell', 'stock': portfolio_info, 'current_price': current_price})
             portfolio_stocks.pop(index)
+    portfolio["p/l"] = pl
     buy_stocks = sorted(buy_stocks, key=lambda x: x['sentiment'])
-    buy_ratio = calculate_buy_ratio(buy_stocks, balance)
+    ratio = calculate_buy_ratio(buy_stocks, balance)
     for index, buy_stock in enumerate(buy_stocks):
-        in_portfolio_response = in_portfolio(buy_stock, portfolio_stocks)
-        portfolio_info = filter(lambda x: x['symbol'] == buy_stock, incoming_stocks)[
-            0] if in_portfolio_response is None else in_portfolio_response[1]
+        print(f"Buying {buy_stock}")
+        in_portfolio_response = in_portfolio(buy_stock['stock'], portfolio_stocks)
+        if len(in_portfolio_response) > 0:
+            portfolio_info = in_portfolio_response[0][1]
+        else:
+            filtered_response = list(filter(lambda x: x['symbol'] == buy_stock['stock'], incoming_stocks))
+            print(f"Filtered response for {buy_stock}: {filtered_response}")
+            if len(filtered_response) == 0:
+                print(f"Issue in buying {buy_stock}")
+                continue
+            portfolio_info = filtered_response[0]
+        buy_ratio = buy_stock['sentiment'] * ratio
         scrip = portfolio_info['scrip']
         latest_stock_info = b.getQuote(scrip)
-        current_price = latest_stock_info['currentValue']
-        budget = balance * buy_ratio
-        qty = budget // current_price
+        current_price = float(latest_stock_info['currentValue'])
+        qty = buy_ratio // current_price
         balance -= current_price * qty
+        print({
+            "buy_ratio": buy_ratio,
+            "qty": qty,
+            "current_price": current_price,
+            "balance": balance,
+            "stock": buy_stock["stock"]
+        })
         transactions.append({'action': 'buy', 'stock': portfolio_info, 'current_price': current_price})
-        buy_ratio = calculate_buy_ratio(buy_stocks[index + 1:], balance)
-        portfolio_stocks.append({**portfolio_info, 'price': current_price})
+        portfolio_stocks.append({**portfolio_info, 'price': current_price, 'qty': qty})
+    portfolio["balance"] = balance
+    with open("final_stocks.json", "w") as final_stocks_file:
+        final_stocks_file.write(json.dumps(portfolio, indent=4))
+    with open("transactions.json", "r+") as transactions_log:
+        logs = loads(transactions_log.read())
+        transactions = transactions.extend(logs["transactions"])
+        temp_log_file = {
+            "transactions": transactions
+        }
+        transactions_log.write(json.dumps(temp_log_file))
 
 
 def get_news_for_all(incoming_stocks):
-    reset_stocks = []
-    final_pl = []
     flattened_stocks = flatten_and_lowercase(incoming_stocks)
     # if datetime.today().weekday() in [5, 6]:
     #     return
@@ -240,7 +279,7 @@ def get_news_for_all(incoming_stocks):
     for stock in india_news_analyse_response.keys():
         buy_sentiment = get_analysed_news(stock, india_news_analyse_response[stock])
         if buy_sentiment is None:
-            return
+            buy_sentiment = get_analysed_news(stock, india_news_analyse_response[stock], secondary=True)
         print(stock, buy_sentiment)
         final_sentiment_analysis[stock] = buy_sentiment
     handle_orders(final_sentiment_analysis, incoming_stocks)
@@ -252,6 +291,7 @@ if __name__ == '__main__':
         print(len(stocks))
 
     get_news_for_all(stocks)
+    # update_stock_scrip_codes()
 
     # scrips_update_scheduler = BackgroundScheduler()
     # scrips_update_scheduler.add_job(update_stock_scrip_codes, 'interval', seconds=172800)
@@ -274,3 +314,5 @@ if __name__ == '__main__':
     #     # Not strictly necessary if daemonic mode is enabled but should be done if possible
     #     scrips_update_scheduler.shutdown()
     #     news_scheduler.shutdown()
+
+
